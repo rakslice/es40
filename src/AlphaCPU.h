@@ -236,9 +236,20 @@
 /// Number of entries in each Translation Buffer
 #define TB_ENTRIES        16
 
+
+#if defined(_MSC_VER)
+
+#define NEXT                        \
+  while(!next_ins(ins, opcode)) {}; \
+  { void* addr = op_vec[opcode]; __asm jmp addr } 
+
+#elif defined(__GNUC__)
+
 #define NEXT                        \
   while(!next_ins(ins, opcode)) {}; \
   goto *op_vec[opcode];
+
+#endif
 
 /**
  * \brief Emulated CPU.

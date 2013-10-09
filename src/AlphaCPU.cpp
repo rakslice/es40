@@ -333,6 +333,12 @@
  * X-1.1        Camiel Vanderhoeven                             19-JAN-2007
  *      Initial version in CVS.
  **/
+#if defined(_MSC_VER)
+#define STORE_ADDR_OF_LABEL(label, pointer) { void * p; __asm{ mov[p], offset label }; pointer = p; }
+#elif defined(__GNUC__)
+#define STORE_ADDR_OF_LABEL(label, pointer) pointer = &&label
+#endif
+
 #include "StdAfx.h"
 #include "AlphaCPU.h"
 #include "TraceEngine.h"
@@ -859,72 +865,75 @@ void CAlphaCPU::execute()
   int opcode;
   int function;
 
-  static void* op_vec[0x40] = {
-      &&op_00,
-      &&unknown,
-      &&unknown,
-      &&unknown,
-      &&unknown,
-      &&unknown,
-      &&unknown,
-      &&unknown,
-      &&op_08,
-      &&op_09,
-      &&op_0a,
-      &&op_0b,
-      &&op_0c,
-      &&op_0d,
-      &&op_0e,
-      &&op_0f,
-      &&op_10,
-      &&op_11,
-      &&op_12,
-      &&op_13,
-      &&op_14,
-      &&op_15,
-      &&op_16,
-      &&op_17,
-      &&op_18,
-      &&op_19,
-      &&op_1a,
-      &&op_1b,
-      &&op_1c,
-      &&op_1d,
-      &&op_1e,
-      &&op_1f,
-      &&op_20,
-      &&op_21,
-      &&op_22,
-      &&op_23,
-      &&op_24,
-      &&op_25,
-      &&op_26,
-      &&op_27,
-      &&op_28,
-      &&op_29,
-      &&op_2a,
-      &&op_2b,
-      &&op_2c,
-      &&op_2d,
-      &&op_2e,
-      &&op_2f,
-      &&op_30,
-      &&op_31,
-      &&op_32,
-      &&op_33,
-      &&op_34,
-      &&op_35,
-      &&op_36,
-      &&op_37,
-      &&op_38,
-      &&op_39,
-      &&op_3a,
-      &&op_3b,
-      &&op_3c,
-      &&op_3d,
-      &&op_3e,
-      &&op_3f
-  };
+  static void* op_vec[0x40];
+
+  void ** op_vec_pos = op_vec;
+
+  STORE_ADDR_OF_LABEL(op_00, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(unknown, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(unknown, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(unknown, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(unknown, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(unknown, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(unknown, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(unknown, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_08, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_09, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_0a, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_0b, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_0c, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_0d, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_0e, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_0f, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_10, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_11, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_12, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_13, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_14, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_15, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_16, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_17, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_18, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_19, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_1a, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_1b, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_1c, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_1d, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_1e, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_1f, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_20, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_21, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_22, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_23, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_24, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_25, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_26, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_27, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_28, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_29, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_2a, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_2b, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_2c, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_2d, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_2e, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_2f, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_30, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_31, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_32, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_33, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_34, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_35, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_36, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_37, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_38, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_39, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_3a, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_3b, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_3c, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_3d, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_3e, *op_vec_pos++);
+  STORE_ADDR_OF_LABEL(op_3f, *op_vec_pos++);
+
 
 #if defined(IDB)
   char*   funcname = 0;
