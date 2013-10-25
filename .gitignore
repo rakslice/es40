@@ -2,3 +2,7 @@
 *.intermediate.manifest
 *.dep
 BuildLog.htm
+*.obj
+*.pdb
+*.exe
+*.user
