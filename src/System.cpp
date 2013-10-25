@@ -1918,6 +1918,8 @@ int CSystem::LoadROM()
     {
       for(i = 0; i < 1800000; i++)
       {
+		//if (i & 0xFFFF == 0)
+		printf("clean pc step %d\n", i);
         SingleStep();
         if(acCPUs[0]->get_clean_pc() < 0x200000)
           break;
